@@ -283,7 +283,7 @@ weapon_names = ["basic", "quick"]
 weapon_ammos = [1, 3]
 currentWeapon = 0
 color.setPalette(
-color.GrayScale
+color.Poke
 )
 game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.WavyProjectile)) {
