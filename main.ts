@@ -6,23 +6,6 @@ namespace SpriteKind {
     export const Exploding_Bomb = SpriteKind.create()
     export const Helping = SpriteKind.create()
 }
-/**
- * IDEAS:
- * 
- * - Change ship look w/ weapon X
- * 
- * - wavey V
- * 
- * - spiral V
- * 
- * - bombs V
- * 
- * - lazer
- * 
- * - homing missile
- * 
- * -
- */
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     nextWeapon()
     Ship_from_the_past.say(weapon_names[currentWeapon], 500)
@@ -55,12 +38,30 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     fire(false)
 })
 sprites.onOverlap(SpriteKind.Helping, SpriteKind.Enemy, function (sprite, otherSprite) {
-    if (Math.percentChance(15)) {
+    if (Math.percentChance(5)) {
         sprite.destroy()
     }
 })
+/**
+ * IDEAS:
+ * 
+ * - Change ship look w/ weapon X
+ * 
+ * - wavey V
+ * 
+ * - spiral V
+ * 
+ * - bombs V
+ * 
+ * - lazer
+ * 
+ * - homing missile
+ * 
+ * -
+ */
 sprites.onOverlap(SpriteKind.Player, SpriteKind.PowerUp, function (sprite, otherSprite) {
     otherSprite.destroy()
+    parts += 1
     addWeapon()
 })
 function addWeapon () {
@@ -229,7 +230,14 @@ let currentWeapon = 0
 let weapon_ammos: number[] = []
 let weapon_names: string[] = []
 let Ship_from_the_past: Sprite = null
+color.setPalette(
+color.GrayScale
+)
 effects.starField.startScreenEffect()
+let parts = 0
+game.splash("Aaaaaa!")
+game.splash("Space thieves stole", "my time machine parts")
+game.splash("I need to get them back")
 info.setLife(10)
 Ship_from_the_past = sprites.create(img`
     . 8 8 8 8 8 . . . 
@@ -282,9 +290,6 @@ Ship_from_the_past.setFlag(SpriteFlag.StayInScreen, true)
 weapon_names = ["basic", "quick"]
 weapon_ammos = [1, 3]
 currentWeapon = 0
-color.setPalette(
-color.GrayScale
-)
 game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.WavyProjectile)) {
         value.y += Math.sin(value.lifespan * 0.01) * 5
@@ -292,6 +297,17 @@ game.onUpdate(function () {
     for (let value of sprites.allOfKind(SpriteKind.SpiralProjectile)) {
         value.y += Math.sin(value.lifespan * 0.01) * 5
         value.x += Math.cos(value.lifespan * 0.01) * 5
+    }
+    if (parts == 5) {
+        Ship_from_the_past.startEffect(effects.fire)
+        controller.moveSprite(Ship_from_the_past, 0, 0)
+        timer.after(1000, function () {
+            Ship_from_the_past.vx = 200
+            Ship_from_the_past.setStayInScreen(false)
+            color.startFade(color.GrayScale, color.originalPalette, 1500)
+            pause(2000)
+            game.over(true, effects.confetti)
+        })
     }
 })
 game.onUpdateInterval(5000, function () {
