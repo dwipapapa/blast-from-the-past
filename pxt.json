@@ -1,0 +1,33 @@
+{
+    "name": "Blast From The Past!",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "Color Fading": "github:jwunderl/pxt-color#v0.2.1",
+        "Timers": "github:microsoft/arcade-timers#v1.1.0"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "tilemap.g.jres",
+        "tilemap.g.ts",
+        "images.g.jres",
+        "images.g.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v1.0.16",
+        "tag": "v1.0.16",
+        "commits": "https://github.com/microsoft/pxt-arcade/commits/3d3129177a6331fa694e0eb095a96de316256656",
+        "target": "1.4.41",
+        "pxt": "6.1.42",
+        "targetId": "arcade"
+    },
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
