@@ -5,6 +5,7 @@ namespace SpriteKind {
     export const Bomb = SpriteKind.create()
     export const Exploding_Bomb = SpriteKind.create()
     export const Helping = SpriteKind.create()
+    export const Warp = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     nextWeapon()
@@ -188,7 +189,7 @@ function nextWeapon () {
 }
 sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
     if (Math.percentChance(50)) {
-        Power = sprites.create(img`
+        Part = sprites.create(img`
             . . . b b . . . 
             . . b b b b . . 
             . b b b b d d . 
@@ -198,8 +199,8 @@ sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
             . . d d d . . . 
             . . . d . . . . 
             `, SpriteKind.PowerUp)
-        Power.x = sprite.x
-        Power.y = sprite.y
+        Part.x = sprite.x
+        Part.y = sprite.y
     }
 })
 function enemyHit (enemy: Sprite) {
@@ -219,10 +220,11 @@ sprites.onOverlap(SpriteKind.SpiralProjectile, SpriteKind.Enemy, function (sprit
     enemyHit(otherSprite)
 })
 let enemyShip: Sprite = null
-let Power: Sprite = null
+let Part: Sprite = null
 let rapid_speed = 0
 let projectile: Sprite = null
 let newWeapon = 0
+let parts = 0
 let ammo = 0
 let ammoConsumed = 0
 let currWeaponName = ""
@@ -234,7 +236,6 @@ color.setPalette(
 color.GrayScale
 )
 effects.starField.startScreenEffect()
-let parts = 0
 game.splash("Aaaaaa!")
 game.splash("Space thieves stole", "my time machine parts")
 game.splash("I need to get them back")
@@ -298,7 +299,8 @@ game.onUpdate(function () {
         value.y += Math.sin(value.lifespan * 0.01) * 5
         value.x += Math.cos(value.lifespan * 0.01) * 5
     }
-    if (parts == 5) {
+    if (parts == 10) {
+        Ship_from_the_past.setKind(SpriteKind.Warp)
         Ship_from_the_past.startEffect(effects.fire)
         controller.moveSprite(Ship_from_the_past, 0, 0)
         timer.after(1000, function () {
